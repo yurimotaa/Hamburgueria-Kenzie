@@ -1,9 +1,11 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useContext } from 'react';
 import { StyledButton } from '../../../styles/button';
 import { StyledForm } from '../../../styles/form';
 import Input from '../Input';
+import { UserContext } from '../../../contexts/UserContext';
 
 export interface ILogin {
   email: string;
@@ -18,6 +20,8 @@ const schema = yup
   .required();
 
 const LoginForm = () => {
+  const { userLogin } = useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -25,7 +29,7 @@ const LoginForm = () => {
   } = useForm<ILogin>({ resolver: yupResolver(schema) });
 
   const onSubmit: SubmitHandler<ILogin> = (data) => {
-    console.log(data);
+    userLogin(data);
   };
 
   return (

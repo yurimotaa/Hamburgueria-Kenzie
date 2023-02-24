@@ -1,17 +1,17 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 import { StyledTextField } from '../../../styles/form';
 import { StyledParagraph } from '../../../styles/typography';
 
-interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+type IInputProps = {
   label: string;
-  type: string;
   error?: string | undefined;
-}
+  type: string;
+};
 
 const Input = forwardRef<HTMLInputElement, IInputProps>(
-  ({ label, type, error }, ref) => (
+  ({ label, type, error, ...rest }, ref) => (
     <fieldset>
-      <StyledTextField label={label} type={type} ref={ref} />
+      <StyledTextField label={label} type={type} ref={ref} {...rest} />
       <StyledParagraph fontColor='red'>{error}</StyledParagraph>
     </fieldset>
   )
