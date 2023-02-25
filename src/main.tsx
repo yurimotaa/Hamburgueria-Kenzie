@@ -6,13 +6,16 @@ import { ThemeProvider } from 'styled-components';
 import { mainTheme } from './styles/theme';
 import App from './App';
 import { UserContextProvider } from './contexts/UserContext';
+import { CartContextProvider } from './contexts/CartContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={mainTheme}>
         <UserContextProvider>
-          <App />
+          <CartContextProvider>
+            <App />
+          </CartContextProvider>
         </UserContextProvider>
       </ThemeProvider>
     </BrowserRouter>

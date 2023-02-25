@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { toast } from 'react-toastify';
 import { ILogin } from '../components/Form/LoginForm';
 import { IRegister } from '../components/Form/RegisterForm';
 import { api } from '../services/api';
@@ -32,6 +34,8 @@ export const UserContextProvider = ({ children }: IUserProviderProps) => {
   useEffect(() => {
     if (token) {
       navigate('/shop');
+    } else {
+      navigate('/');
     }
   }, []);
 
@@ -43,24 +47,27 @@ export const UserContextProvider = ({ children }: IUserProviderProps) => {
         JSON.stringify(response.data.accessToken)
       );
       setUser(response.data.user);
+      toast.success('Login efetuado com sucesso');
       navigate('/shop');
     } catch (error) {
-      console.log(error);
+      toast.error('Dados incorretos. Verifique o Email e senha digitados');
     }
   };
 
   const userRegister = async (data: IRegister) => {
     try {
-      const response = await api.post('/users', data);
+      await api.post('/users', data);
+      toast.success('Usuário cadastrado');
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast.error('Email já cadastrado');
     }
   };
 
   const userLogout = () => {
     setUser(null);
     localStorage.clear();
+    toast.warning('Você saiu');
     navigate('/');
   };
 
