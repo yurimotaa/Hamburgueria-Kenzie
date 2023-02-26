@@ -26,6 +26,8 @@ interface ICartContext {
   total: number[];
   clearCart: () => void;
   deleteProduct: (data: IProduct) => void;
+  productsSearch: IProduct[];
+  setProductsSearch: React.Dispatch<React.SetStateAction<IProduct[]>>;
 }
 
 export const CartContext = createContext({} as ICartContext);
@@ -38,6 +40,7 @@ export const CartContextProvider = ({ children }: IContextProviderProps) => {
   const [listProducts, setListProducts] = useState<IProduct[]>([]);
   const [listCart, setListCart] = useState<IProduct[]>([]);
   const [total, setTotal] = useState([+0]);
+  const [productsSearch, setProductsSearch] = useState<IProduct[]>([]);
 
   useEffect(() => {
     async function products() {
@@ -47,6 +50,7 @@ export const CartContextProvider = ({ children }: IContextProviderProps) => {
             headers: { Authorization: `Bearer ${JSON.parse(token)}` },
           });
           setListProducts(response.data);
+          setProductsSearch(response.data);
         } catch (error) {
           toast.error('Faça o login');
           navigate('/');
@@ -59,7 +63,11 @@ export const CartContextProvider = ({ children }: IContextProviderProps) => {
   const addToCart = (data: IProduct) => {
     const productToAdd = listProducts.find((product) => product.id === data.id);
     const isProductInCart = listCart.some((product) => product.id === data.id);
+    if (isProductInCart) {
+      toast.error('Este produto já foi adicionado');
+    }
     if (productToAdd && !isProductInCart) {
+      toast.success('Produto adicionado ao carrinho');
       setListCart([...listCart, productToAdd]);
       setTotal([...total, productToAdd.price]);
     }
@@ -93,6 +101,8 @@ export const CartContextProvider = ({ children }: IContextProviderProps) => {
         total,
         clearCart,
         deleteProduct,
+        productsSearch,
+        setProductsSearch,
       }}
     >
       {children}
