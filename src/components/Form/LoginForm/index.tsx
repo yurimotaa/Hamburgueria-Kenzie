@@ -37,14 +37,14 @@ const LoginForm = () => {
       <Input
         label='Email'
         type='email'
-        {...register('email')}
-        error={errors.email?.message}
+        register={register('email')}
+        error={errors.email}
       />
       <Input
         label='Senha'
         type='password'
-        {...register('password')}
-        error={errors.password?.message}
+        register={register('password')}
+        error={errors.password}
       />
       <StyledButton $buttonSize='default' $buttonStyle='green' type='submit'>
         Entrar

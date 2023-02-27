@@ -1,20 +1,21 @@
-import { forwardRef } from 'react';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { StyledTextField } from '../../../styles/form';
 import { StyledParagraph } from '../../../styles/typography';
 
-type IInputProps = {
+interface IInputProps {
   label: string;
-  error?: string | undefined;
   type: string;
-};
+  register: UseFormRegisterReturn<string>;
+  error?: FieldError;
+}
 
-const Input = forwardRef<HTMLInputElement, IInputProps>(
-  ({ label, type, error, ...rest }, ref) => (
-    <fieldset>
-      <StyledTextField label={label} type={type} ref={ref} {...rest} />
-      <StyledParagraph fontColor='red'>{error}</StyledParagraph>
-    </fieldset>
-  )
+const Input = ({ label, type, register, error }: IInputProps) => (
+  <fieldset>
+    <StyledTextField label={label} type={type} {...register} />
+    {error ? (
+      <StyledParagraph fontColor='red'>{error.message}</StyledParagraph>
+    ) : null}
+  </fieldset>
 );
 
 export default Input;

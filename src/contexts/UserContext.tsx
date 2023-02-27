@@ -16,6 +16,11 @@ export interface IUser {
   email: string;
 }
 
+export interface IUserResponse {
+  user: IUser;
+  accessToken: string;
+}
+
 interface IUserContext {
   user: IUser | null;
   setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
@@ -41,7 +46,7 @@ export const UserContextProvider = ({ children }: IUserProviderProps) => {
 
   const userLogin = async (data: ILogin) => {
     try {
-      const response = await api.post('/login', data);
+      const response = await api.post<IUserResponse>('/login', data);
       localStorage.setItem(
         '@TOKEN:',
         JSON.stringify(response.data.accessToken)

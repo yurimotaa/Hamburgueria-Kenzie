@@ -28,6 +28,7 @@ interface ICartContext {
   deleteProduct: (data: IProduct) => void;
   productsSearch: IProduct[];
   setProductsSearch: React.Dispatch<React.SetStateAction<IProduct[]>>;
+  token: string | null;
 }
 
 export const CartContext = createContext({} as ICartContext);
@@ -46,7 +47,7 @@ export const CartContextProvider = ({ children }: IContextProviderProps) => {
     async function products() {
       if (token) {
         try {
-          const response = await api.get('/products', {
+          const response = await api.get<IProduct[]>('/products', {
             headers: { Authorization: `Bearer ${JSON.parse(token)}` },
           });
           setListProducts(response.data);
@@ -103,6 +104,7 @@ export const CartContextProvider = ({ children }: IContextProviderProps) => {
         deleteProduct,
         productsSearch,
         setProductsSearch,
+        token,
       }}
     >
       {children}

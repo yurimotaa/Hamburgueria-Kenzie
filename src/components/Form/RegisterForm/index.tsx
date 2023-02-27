@@ -42,20 +42,20 @@ const RegisterForm = () => {
       <Input
         type='name'
         label='Nome'
-        {...register('name')}
-        error={errors.name?.message}
+        register={register('name')}
+        error={errors.name}
       />
       <Input
         type='email'
         label='Email'
-        {...register('email')}
-        error={errors.email?.message}
+        register={register('email')}
+        error={errors.email}
       />
       <Input
         type='password'
         label='Senha'
-        {...register('password')}
-        error={errors.password?.message}
+        register={register('password')}
+        error={errors.password}
       />
       <StyledButton $buttonSize='default' $buttonStyle='gray' type='submit'>
         Cadastrar
